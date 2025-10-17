@@ -5,7 +5,6 @@ class TestToDoTDD(unittest.TestCase):
     def setUp(self):
         self.todo = ToDoList()
 
-    # REQ-01: Adicionar tarefas
     def test_TEST01_add_task_success(self):
         task = self.todo.add_task("Estudar TDD", "Ler sobre Red-Green-Refactor")
         self.assertIsNotNone(task.id)
@@ -19,7 +18,6 @@ class TestToDoTDD(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.todo.add_task("nome válido", "   ")
 
-    # REQ-02: Marcar como concluída
     def test_TEST03_mark_done_updates_status(self):
         t = self.todo.add_task("Escrever casos de teste", "Cobrir requisitos")
         changed = self.todo.mark_done(t.id)
@@ -29,10 +27,9 @@ class TestToDoTDD(unittest.TestCase):
     def test_TEST04_mark_done_already_done_idempotent(self):
         t = self.todo.add_task("Refatorar", "Melhorar clareza")
         self.todo.mark_done(t.id)
-        changed = self.todo.mark_done(t.id)  # segunda vez
-        self.assertFalse(changed)  # nenhuma alteração
+        changed = self.todo.mark_done(t.id)  
+        self.assertFalse(changed)  
 
-    # REQ-03: Marcar como em andamento
     def test_TEST05_mark_in_progress_changes_status(self):
         t = self.todo.add_task("Implementar", "Função X")
         changed = self.todo.mark_in_progress(t.id)
@@ -45,7 +42,6 @@ class TestToDoTDD(unittest.TestCase):
         with self.assertRaises(InvalidOperationError):
             self.todo.mark_in_progress(t.id)
 
-    # REQ-04: Editar nome e descrição
     def test_TEST07_edit_updates_fields(self):
         t = self.todo.add_task("Antigo", "Descricao antiga")
         updated = self.todo.edit_task(t.id, name="Novo nome", description="Nova descricao")
@@ -56,7 +52,6 @@ class TestToDoTDD(unittest.TestCase):
         with self.assertRaises(KeyError):
             self.todo.edit_task("nao-existe", name="X")
 
-    # REQ-05: Excluir tarefas
     def test_TEST09_delete_success(self):
         t = self.todo.add_task("Apagar", "Remover da lista")
         self.todo.delete_task(t.id)
